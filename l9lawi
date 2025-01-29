@@ -1,0 +1,21 @@
+whisper "مسار_الملف.wav" --language English
+import speech_recognition as sr
+
+# Initialize recognizer
+recognizer = sr.Recognizer()
+
+# Load extracted audio file
+audio_file = "/mnt/data/extracted_audio.wav"
+
+# Convert speech to text
+with sr.AudioFile(audio_file) as source:
+    audio_data = recognizer.record(source)  # Read the entire audio file
+    try:
+        extracted_text = recognizer.recognize_google(audio_data)  # Use Google's Speech Recognition
+    except sr.UnknownValueError:
+        extracted_text = "تعذر التعرف على الكلام."
+    except sr.RequestError:
+        extracted_text = "خطأ في الاتصال بخدمة التعرف على الصوت."
+
+# Output the extracted text
+extracted_text
